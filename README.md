@@ -1,0 +1,2 @@
+# Assignments
+For school assignments
