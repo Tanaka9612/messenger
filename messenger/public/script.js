@@ -1,4 +1,4 @@
-
+//client side
 const socket = io();
 
 var messageForm = document.getElementById("messageForm");
@@ -9,8 +9,8 @@ var responseMessage = document.getElementById("responseMessage");
 var userCount = document.getElementById("userCount");
 
 // Log the client's socket ID
-socket.on('connection', (socket) =>{
-    console.log("A user with ID " + socket.id + " is connected")
+socket.on('connect', () =>{
+    console.log(`User id ${socket.id} is connected`)
 });
 
 
@@ -20,9 +20,10 @@ socket.on('systemMessage', (msg)=>{
 } )
 
 // Display received messages
-// socket.on('messages', (msgs)={
-
-// });
+socket.on('message', (data)=>{
+    // console.log(`Received data ${data}`);
+    addMessage(data);
+});
 
 // Display the number of connected users
 
@@ -32,17 +33,28 @@ socket.on('systemMessage', (msg)=>{
 
 messageForm.addEventListener("submit", (event) => {
     event.preventDefault(); //so that the page does no refresh itself
-    socket.emit("hello", {
-        username: event.target.usernameInput,
-        message: event.target.messageInput
-    });
-    usernameInput="";
-    messageInput="";
+    const timestamp = new Date().toISOString();
+    if(usernameInput.value){
+        socket.emit("hello", {
+            username: usernameInput.value,
+            message: messageInput.value, 
+            timestamp: timestamp
+        });
+        messageInput.value="";
+    }
 });
 
 function addMessage(text) {
     const paragraph = document.createElement("p");
-    paragraph.textContent = text;
-
+    const time = new Date(text.timestamp);
+    let final_time ="";
+    if(time.getMinutes() < 10){
+        final_time = `${time.getHours()}:0${time.getMinutes()}`;
+    }
+    else{
+        final_time =`${time.getHours()}:${time.getMinutes()}`;
+    }
+    paragraph.textContent = `${final_time} - ${text.username}: ${text.message}`;
     messages.appendChild(paragraph);
 }
+

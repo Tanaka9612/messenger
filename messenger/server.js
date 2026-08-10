@@ -1,3 +1,4 @@
+//server side sockets 
 const http = require("http");
 const express = require("express");
 const { Server } = require("socket.io");
@@ -16,14 +17,10 @@ io.on('connection', (socket) => {
         text: "A user connected."
     })
     
-    socket.on("hello", (data) => {
+    socket.on("message", (data) => { 
         console.log(data);
-
-        io.emit("systemMessage", {
-            text: `${data.username} says hello!`
-        });
+        io.emit("hello", (data));
     });
-    socket.on()
     socket.on("disconnect", () => {
         console.log(`User disconnected: ${socket.id}`);
 
