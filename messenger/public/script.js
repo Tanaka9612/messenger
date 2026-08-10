@@ -17,10 +17,10 @@ socket.on('connect', () =>{
 // Display received system messages
 socket.on('systemMessage', (msg)=>{
     console.log(msg);
-} )
+})
 
 // Display received messages
-socket.on('message', (data)=>{
+socket.on('chat message', (data)=>{
     // console.log(`Received data ${data}`);
     addMessage(data);
 });
@@ -35,12 +35,13 @@ messageForm.addEventListener("submit", (event) => {
     event.preventDefault(); //so that the page does no refresh itself
     const timestamp = new Date().toISOString();
     if(usernameInput.value){
-        socket.emit("hello", {
+        socket.emit("chat message", {
             username: usernameInput.value,
             message: messageInput.value, 
             timestamp: timestamp
         });
         messageInput.value="";
+        messageInput.focus();
     }
 });
 
