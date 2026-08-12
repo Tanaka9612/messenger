@@ -8,11 +8,11 @@ var messages = document.getElementById("messages");
 var responseMessage = document.getElementById("responseMessage");
 var userCount = document.getElementById("userCount");
 
+
 // Log the client's socket ID
 socket.on('connect', () =>{
-    console.log(`User id ${socket.id} is connected`)
+    console.log(`User id ${socket.id} is connected`);
 });
-
 
 // Display received system messages
 socket.on('systemMessage', (msg)=>{
@@ -26,7 +26,9 @@ socket.on('chat message', (data)=>{
 });
 
 // Display the number of connected users
-
+socket.on('connectedUsers', (users) => {
+    userCount.textContent = userCount.textContent.replace(/\d+/, users);
+});
 
 // Display validation errors
 
@@ -48,6 +50,7 @@ messageForm.addEventListener("submit", (event) => {
 function addMessage(text) {
     const paragraph = document.createElement("p");
     const time = new Date(text.timestamp);
+    
     let final_time ="";
     if(time.getMinutes() < 10){
         final_time = `${time.getHours()}:0${time.getMinutes()}`;

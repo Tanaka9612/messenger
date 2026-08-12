@@ -1,10 +1,12 @@
 /** QUESTION 1 **/
-
+Node modules should not be included in the submission because they are a lot of files that take time to compress or unzip.
+ Node modules can always be installed on the new machine saving time so there is no need to submit them.
 
 /** QUESTION 2 **/
-
+The start script runs the correct command to start a program using npm start just incase the user doesn't know.
 
 /** QUESTION 3 **/
-
+Io.emit() sends messages to all the connected sockets, while socket.emit() sends to a specific client connection.
 
 /** QUESTION 4 **/
+if it is done on the server side it ensures that it is more secure and prevent malicious code to affect the program.
